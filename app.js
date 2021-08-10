@@ -27,6 +27,7 @@ function RandomImage(name, imgpath) {
 
 RandomImage.all = [];
 
+
 // createResult();
 // craeteList();
 // createChart();
@@ -48,6 +49,9 @@ function render() {
     RandomImage.all[leftRandom].shown++;
     RandomImage.all[rightRandom].shown++;
     RandomImage.all[centerRandom].shown++;
+
+
+    localStorage.data = JSON.stringify(RandomImage.all);
 }
 
 render();
@@ -69,6 +73,7 @@ function clickHandler(e) {
         imageSection.removeEventListener('click', clickHandler);
         createResult();
         creatChart();
+        getData();
 
 
     }
@@ -156,3 +161,16 @@ function creatChart() {
         }
     });
 };
+
+function getData() {
+    if (localStorage.data) {
+        let data = JSON.parse(localStorage.data);
+        for (let i = 0; i < data.length; i++) {
+            new Rest(data[i].name, data[i].imgpath, data[i].shown);
+        }
+    } else {
+        for (let i = 0; i < imgArray.length; i++) {
+            new Rest(imgArray[i].split('.')[0], imgArray[i]);
+        }
+    }
+}
